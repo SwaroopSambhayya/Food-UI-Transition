@@ -7,6 +7,7 @@ import 'package:food_ui_transition/const.dart';
 import 'package:food_ui_transition/home/components/food.dart';
 import 'package:food_ui_transition/home/components/rotate_food.dart';
 import 'package:food_ui_transition/home/providers/transition_provider.dart';
+import 'package:food_ui_transition/home/utils/utils.dart';
 import 'package:food_ui_transition/services/precache_service.dart';
 import 'package:unicons/unicons.dart';
 
@@ -37,6 +38,7 @@ class _HomeState extends ConsumerState<Home> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -55,7 +57,7 @@ class _HomeState extends ConsumerState<Home> {
             mini: true,
             elevation: 0,
             backgroundColor: const Color(0xff45C37B),
-            onPressed: () {},
+            onPressed: () => navigateToDetail(foodList[currentIndex], context),
             child: Transform(
               transform: Matrix4.identity()..rotateZ(-pi / 4),
               alignment: Alignment.center,

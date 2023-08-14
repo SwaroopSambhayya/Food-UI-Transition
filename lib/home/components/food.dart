@@ -54,6 +54,7 @@ class _FoodState extends ConsumerState<Food> with TickerProviderStateMixin {
                     fontWeight: FontWeight.w600,
                     fontSize: 12),
                 controller: _controller,
+                autoPlay: true,
               ),
             ),
             Padding(

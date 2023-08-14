@@ -4,7 +4,7 @@ import 'package:unicons/unicons.dart';
 
 List<FoodDetail> foodList = [
   FoodDetail(
-      title: "Honey and rose lamb",
+      title: "Chilly and garlic lamb",
       colorScheme: const ColorScheme.light(),
       attributes: [
         Attribute(
@@ -30,8 +30,8 @@ List<FoodDetail> foodList = [
       textColor: const Color(0xff171f52),
       description:
           'This amazing combination of simple ingredients and spectacular cuts of lamb makes this glazed rack of lamb dish the star of your next dinner party.',
-      picture: "Plate-2.png",
-      pictureAlt: 'Plate-2-alt.png',
+      picture: "Plate-1.png",
+      pictureAlt: 'Plate-1-alt.png',
       ingredients: [
         "2 cloves garlic, crushed",
         "2 racks of lamb, frenched and trimmed of fat",

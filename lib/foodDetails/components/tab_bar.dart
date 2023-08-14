@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:food_ui_transition/foodDetails/components/ingredients.dart';
 import 'package:food_ui_transition/foodDetails/components/methods.dart';
 
 class ReciepeTab extends StatefulWidget {
   final List<String> ingredients;
+  final AnimationController controller;
   final Color textColor;
   const ReciepeTab(
-      {super.key, required this.ingredients, required this.textColor});
+      {super.key,
+      required this.ingredients,
+      required this.textColor,
+      required this.controller});
 
   @override
   State<ReciepeTab> createState() => _ReciepeTabState();
@@ -39,13 +44,15 @@ class _ReciepeTabState extends State<ReciepeTab> with TickerProviderStateMixin {
         Flexible(
           child: TabBarView(controller: _tabController, children: [
             Ingredients(
-              ingredients: widget.ingredients,
-              textColor: widget.textColor,
-            ),
+                ingredients: widget.ingredients,
+                textColor: widget.textColor,
+                animationController: widget.controller),
             const Methods()
           ]),
         )
       ],
-    );
+    )
+        .animate(controller: widget.controller)
+        .slideY(begin: 1, end: 0, curve: Curves.easeIn);
   }
 }

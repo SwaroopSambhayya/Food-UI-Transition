@@ -5,15 +5,38 @@ import 'package:food_ui_transition/home/models/food_detail.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unicons/unicons.dart';
 
-class FoodRecipe extends StatelessWidget {
+class FoodRecipe extends StatefulWidget {
   final FoodDetail detail;
   const FoodRecipe({super.key, required this.detail});
+
+  @override
+  State<FoodRecipe> createState() => _FoodRecipeState();
+}
+
+class _FoodRecipeState extends State<FoodRecipe>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: detail.colorScheme!.background,
+      backgroundColor: widget.detail.colorScheme!.background,
       appBar: AppBar(
         forceMaterialTransparency: true,
         automaticallyImplyLeading: false,
@@ -21,10 +44,13 @@ class FoodRecipe extends StatelessWidget {
           icon: Icon(
             UniconsLine.arrow_left,
             size: 30,
-            color: detail.textColor,
+            color: widget.detail.textColor,
           ),
           onPressed: () {
-            Navigator.pop(context, false);
+            _animationController.reverse();
+            Future.delayed(const Duration(milliseconds: 300), () {
+              Navigator.pop(context);
+            });
           },
         ),
       ),
@@ -37,22 +63,23 @@ class FoodRecipe extends StatelessWidget {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.80,
                 child: Hero(
-                    tag: detail.pictureAlt!,
-                    child: Image.asset('lib/assets/${detail.pictureAlt}')),
+                    tag: widget.detail.pictureAlt!,
+                    child:
+                        Image.asset('lib/assets/${widget.detail.pictureAlt}')),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Hero(
-                tag: detail.title!,
+                tag: widget.detail.title!,
                 child: Material(
                   type: MaterialType.transparency,
                   child: Text(
-                    detail.title!,
+                    widget.detail.title!,
                     style: GoogleFonts.ibmPlexSerif().copyWith(
                       fontSize: 27,
                       fontWeight: FontWeight.w900,
-                      color: detail.textColor,
+                      color: widget.detail.textColor,
                     ),
                   ),
                 ),
@@ -62,7 +89,7 @@ class FoodRecipe extends StatelessWidget {
               children: [
                 Flexible(
                   child: AnimatedTile(
-                    data: detail.attributes![1],
+                    data: widget.detail.attributes![1],
                     animate: false,
                   ),
                 ),
@@ -70,7 +97,7 @@ class FoodRecipe extends StatelessWidget {
                   flex: 2,
                   child: SizedBox(
                     child: AnimatedTile(
-                      data: detail.attributes![3],
+                      data: widget.detail.attributes![3],
                       animate: false,
                     ),
                   ),
@@ -79,8 +106,9 @@ class FoodRecipe extends StatelessWidget {
             ),
             Expanded(
               child: ReciepeTab(
-                textColor: detail.textColor!,
-                ingredients: detail.ingredients ?? [],
+                textColor: widget.detail.textColor!,
+                controller: _animationController,
+                ingredients: widget.detail.ingredients ?? [],
               ),
             )
           ],

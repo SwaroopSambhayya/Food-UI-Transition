@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_ui_transition/const.dart';
 import 'package:food_ui_transition/foodDetails/details.dart';
 import 'package:food_ui_transition/home/providers/transition_provider.dart';
+import 'package:food_ui_transition/home/utils/utils.dart';
 
 class RotateFood extends ConsumerStatefulWidget {
   const RotateFood({
@@ -43,31 +44,9 @@ class _RotateFoodState extends ConsumerState<RotateFood>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          PageRouteBuilder<void>(
-            pageBuilder: (BuildContext context, Animation<double> animation,
-                Animation<double> secondaryAnimation) {
-              return AnimatedBuilder(
-                  animation: animation,
-                  builder: (BuildContext context, Widget? child) {
-                    return Opacity(
-                      opacity: animation.value,
-                      child: FoodRecipe(
-                        detail: foodList[widget.currentIndex],
-                      ),
-                    );
-                  });
-            },
-            transitionDuration: const Duration(milliseconds: 800),
-          ),
-        );
-      },
+      onTap: () => navigateToDetail(foodList[widget.currentIndex], context),
       onVerticalDragUpdate: (details) async {
-        //  print(details.delta);
-
-        if (details.delta.dy < 0) {
+        if (details.delta.dy <= 0) {
           if (!_rotationController.isAnimating) {
             if (widget.currentIndex < foodList.length - 1) {
               setState(() {
@@ -106,16 +85,23 @@ class _RotateFoodState extends ConsumerState<RotateFood>
       child: Hero(
         tag: foodList[widget.currentIndex].pictureAlt!,
         flightShuttleBuilder: (flightContext, animation, flightDirection,
-                fromHeroContext, toHeroContext) =>
-            Image.asset(
-          "lib/assets/${foodList[widget.currentIndex].pictureAlt}",
-          width: widget.width * 0.80,
-        ).animate().rotate(
-                  begin: 0.7,
-                  end: 0,
-                  curve: Curves.fastOutSlowIn,
-                  duration: const Duration(milliseconds: 600),
-                ),
+            fromHeroContext, toHeroContext) {
+          return Image.asset(
+            flightDirection.name == "push"
+                ? "lib/assets/${foodList[widget.currentIndex].pictureAlt}"
+                : "lib/assets/${foodList[widget.currentIndex].picture}",
+            width: flightDirection.name == "push"
+                ? widget.width * 0.80
+                : widget.width * 0.88,
+          ).animate().rotate(
+                begin: flightDirection.name == 'push' ? 1 : -1,
+                end: 0,
+                curve: flightDirection.name == 'push'
+                    ? Curves.fastOutSlowIn
+                    : Curves.fastEaseInToSlowEaseOut,
+                duration: const Duration(milliseconds: 600),
+              );
+        },
         child: Image.asset(
           "lib/assets/${foodList[widget.currentIndex].picture}",
           width: widget.width * 0.88,
