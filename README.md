@@ -11,7 +11,8 @@ A Cook qwest UI with very awesome animations and transitions buit in Flutter.
 
 This project is a starting point for a Flutter application.
 
-![Simulator Screen Recording - iPhone 15 Pro - 2024-11-05 at 14 40 29](https://github.com/user-attachments/assets/a74c694e-9834-4395-9611-34c74948ab30)
+![SimulatorScreenRecording-iPhone15Pro-2024-11-05at14 40 29-ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/2ecd8939-c622-4e79-830b-74be324996be)
+
 
 A few resources to get you started if this is your first Flutter project:
 
